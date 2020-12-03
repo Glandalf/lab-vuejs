@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma première vue Vue.js</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div id="app-login">
+        <!-- on peut spécifier explicitement de passer l'event submit dans la fonction :
+            <form action="login.php" v-on:submit="onSubmit" id="login-form">
+            ou pas (c'est pareil) : -->
+        <form action="login.php" v-if="!estConnecte" v-on:submit="onSubmit" id="login-form">
+            <h2>Bienvenue, connectez-vous</h2>
+
+            <label for="form-login">Identifiant</label>
+            <input type="text" id="form-login" placeholder="Login" v-model="identifiant"/>
+            <span v-if="identifiant.length <= 5" title="Login trop court">!</span>
+            <br/>
+
+            <label for="form-password">Mot de passe</label>
+            <input type="password" id="form-password" placeholder="Mot de passe" v-model="motDePasse"/>
+            <span v-if="motDePasse.length <= 5" title="mdp trop court">!</span>
+            <br/>
+
+            <input type="submit" value="coincoin"/>
+        </form>
+        <section v-else>
+            <h2>Bonjour {{identifiant}}</h2>
+        </section>
+    </div>
+
+
+
+    <!-- Version de dev -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 
+        Le jour où on passe en production, on basculera sur ce code :
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> 
+    -->
+</body>
+<script src="./login.js"></script>
+</html>
