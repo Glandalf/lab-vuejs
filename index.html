@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div id="app-login">
+    <div id="app">
         <!-- on peut spécifier explicitement de passer l'event submit dans la fonction :
             <form action="login.php" v-on:submit="onSubmit" id="login-form">
             ou pas (c'est pareil) : -->
@@ -27,8 +27,56 @@
 
             <input type="submit" value="coincoin"/>
         </form>
+
+
+
+
+
+
+
         <section v-else>
-            <h2>Bonjour {{identifiant}}</h2>
+            {{ game }}
+
+            <div v-if="game.status === 'idle'" class="full-screen">
+                <h2>Choisissez un titre pour votre jeu</h2>
+                <input type="text" v-model="game.title" placeholder="Titre amusant">
+                <p>
+                    Pour partager le questionnaire, cliquez ici.<br/>
+                    <button @click="createGame">Créer la partie !</button>
+                </p>
+            </div>
+            
+            <div v-else-if="game.status === 'lobby'" class="full-screen">
+                <h2>Bienvenue ! En attente des joueurs...</h2>
+                <h3>{{ game.title }}</h3>
+                <p>
+                    {{ game.questions.length }} questions 
+                    pour un total de {{ questionsDuration }} secondes
+                </p>
+                <ul>
+                    <li v-for="player in game.players">{{player}}</li>
+                </ul>
+                <button @click="startGame">Démarrer !</button>
+            </div>
+
+            <div v-else-if="game.status === 'pending'" class="full-screen">
+                <h2>Question {{ game.currentQuestion + 1 }} sur {{ game.questions.length }}</h2>
+                <p>{{ question.label }}</p>
+                <span>{{ game.timer }}s.</span>
+                <ul>
+                    <li>{{ question.response1 }}</li>
+                    <li>{{ question.response2 }}</li>
+                    <li>{{ question.response3 }}</li>
+                    <li>{{ question.response4 }}</li>
+                </ul>
+
+                <button>précédent</button>
+                <button @click="nextQuestion">suivant</button>
+            </div>
+            <div v-else-if="game.status === 'ended'" class="full-screen">
+                partie terminée
+            </div>
+
         </section>
     </div>
 
